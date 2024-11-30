@@ -37,16 +37,13 @@ database.define_schema({
 })
 ```
 
-```
-name: string - should only be alphabets
-types: string - options [date, text, number, boolean]
-unique : boolean - optional [default to False ]
-primary : boolean - optional [default to False ]
-
+| **Field**        | **Type**                   | **Description**                                                |
+| ---------------- | -------------------------- | -------------------------------------------------------------- |
+| `name`           | `string`                   | Field name, must only contain alphabets.                       |
+| `type`           | `string`                   | Data type, options: `date`, `text`, `number`, `boolean`.       |
+| `unique` (opt.)  | `boolean` (default: False) | Ensures no duplicate values in this field.                     |
+| `primary` (opt.) | `boolean` (default: False) | Specifies this field as the primary key (unique and non-null). |
 
 Either single dictionary or list of dictionaries should be passed to 'defineSchema' method
 
 This 'define_schema' method returns the instance of the class. So yes, it supports method chaining
-
-
-```
