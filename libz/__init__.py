@@ -1,1 +1,1 @@
-import main
+from .libzmain import Libz
