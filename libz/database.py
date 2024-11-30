@@ -49,4 +49,5 @@ class Database:
             raise FatalError(f"Fields for the '{schema.name}' not provided")
 
         for field in schema.fields:
-            if not filed.type
+            # if not filed.type
+            pass

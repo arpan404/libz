@@ -1,1 +1,1 @@
-from .printer import displayMenu
+import main
