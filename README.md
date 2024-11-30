@@ -16,22 +16,22 @@ database = Libz("users")
 
 ```python
 database.define_schema({
-    name: "posts",
-    fields:[
+    "name": "posts",
+    "fields":[
         {
-            name:"uid",
-            type: "text",
-            unique:True,
-            primary: True
+            "name:"uid",
+            "type": "text",
+            "unique":True,
+            "primary": True
         },
         {
-            name : "postedBy",
-            type:"text"
-            unique: False,
+            "name" : "postedBy",
+            "type":"text"
+            "unique": False,
         },
         {
-            name:"postedOn",
-            type: "date"
+            "name":"postedOn",
+            "type": "date"
         }
     ]
 })
@@ -45,5 +45,8 @@ primary : boolean - optional [default to False ]
 
 
 Either single dictionary or list of dictionaries should be passed to 'defineSchema' method
+
+This 'define_schema' method returns the instance of the class. So yes, it supports method chaining
+
 
 ```
