@@ -64,7 +64,6 @@ class Database:
         validated_schema["name"] = schema["name"].lower()
         validated_schema["field"] = self.__validate_schema_field(
             validated_schema["name"], schema["fields"])
-        print(validated_schema)
 
     def __validate_schema_field(self, schema_name: str,  fields: List) -> List:
         primary: str = None
