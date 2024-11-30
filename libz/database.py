@@ -1,4 +1,5 @@
-from error import Error
+from error import Error, FatalError
+from typing import Set
 
 
 class Database:
@@ -19,12 +20,12 @@ class Database:
                 name: "users",
                 fields:{
                     "uid": {
-                        type: "string",
+                        type: "text",
                         unique: True,
                         primary: True
                     },
                     "firstName":{
-                        type:"string",
+                        type:"text",
                         unique: False
                     },
                     "joinedDate":{
@@ -34,5 +35,14 @@ class Database:
             }
         )
         """
-        
-        
+
+        validTypes: Set[str] = {"text", "number", "boolean", "date"}
+
+        if (not schema.name):
+            raise FatalError(
+                "Name for the schema is required, but was not provided.")
+
+        if(not isinstance(schema.name, str)):
+            raise FatalError(
+                "Name for the scheme should always be string."
+            )
