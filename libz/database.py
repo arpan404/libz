@@ -36,22 +36,23 @@ class Database:
         schema_attributes = schema.keys()
         valid_schema_attributes = ["name", "fields"]
 
-        for attr in valid_schema_attributes:
-            if attr not in schema_attributes:
-                raise FatalError(
-                    f"For defining a schema, '{attr}' attribute is required, which was not provided.")
+        missing_schema_atrributes = [
+            attribute for attribute in valid_schema_attributes if attribute not in schema_attributes]
+
+        if missing_schema_atrributes:
+            raise FatalError(
+                f"For defining a schema, '{", ".join(missing_schema_atrributes)}' attributes are required, which were not provided.")
 
         invalid_attributes = [
             attribute for attribute in schema_attributes if attribute not in valid_schema_attributes]
 
         if invalid_attributes:
-            string_representation = ", ".join(invalid_attributes)
             raise Error(f"Invalid attributes '{
-                        string_representation}' provided in schema. Libz will create schema by ignoring them.")
+                        ", ".join(invalid_attributes)}' provided in schema. Libz will create schema by ignoring them.")
 
         if isinstance(schema.name, str) or not schema.name.isalpha():
             raise FatalError(
-                "Schema's 'name' attribute must only be of alphabets..")
+                "Schema's 'name' attribute must only be of alphabets.")
 
         if not isinstance(schema.fields, list):
             raise FatalError(
@@ -61,13 +62,31 @@ class Database:
         validated_schema["name"] = schema.name.lower()
 
         primary = None
+        validated_fields_name = []
         for field in schema.fields:
             if isinstance(field, dict):
                 raise FatalError(f"Invalid datatype for fields in '{
                                  validated_schema.name}' schema.. ")
-            
+
             valid_field_attributes = ["name", "type", "unique", "primary"]
-            field_keys = field.keys()
-            
-            
+            optional_field_attributes = ["unique", "primary"]
+            field_attributes = field.keys()
+
+            required_attributes = [
+                attr for attr in valid_field_attributes if attr not in optional_field_attributes]
+
+            missing_attributes = [
+                attribute for attribute in required_attributes if attribute not in field_attributes]
+
+            if missing_attributes:
+                raise FatalError(
+                    f"Attributes - {", ".join(missing_attributes)} are missing in the schema.")
+
+            if not isinstance(field.name, str) or not field.name.isalpha():
+                "Field's 'name' attribute for schema must only be of alphabets."
+
+            if field.name in validated_fields_name:
+                raise FatalError(f" Duplicate name for the field provided. Got '{
+                                 field.name}' as field name for multiple time.")
+
             

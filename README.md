@@ -4,6 +4,8 @@
 
 ##### Coded a lot in C++ and Typescript in last few weeks, so coded this to recall python for exam
 
+> Python Version: 3.12.4
+
 ## Creating a database
 
 ```python
@@ -34,6 +36,7 @@ database.define_schema({
     ]
 })
 ```
+
 ```
 name: string - should only be alphabets
 types: string - options [date, text, number, boolean]
