@@ -9,32 +9,35 @@
 ## Creating a database
 
 ```python
+from libz import Libz
 database = Libz("users")
 ```
 
 ## Defining a schema
 
 ```python
+
 database.define_schema({
     "name": "posts",
-    "fields":[
+    "fields": [
         {
-            "name:"uid",
+            "name": "uid",
             "type": "text",
-            "unique":True,
+            "unique": True,
             "primary": True
         },
         {
-            "name" : "postedBy",
-            "type":"text"
-            "unique": False,
+            "name": "postedBy",
+            "type": "text",
+            "unique": False
         },
         {
-            "name":"postedOn",
+            "name": "postedOn",
             "type": "date"
         }
     ]
 })
+
 ```
 
 | **Field**        | **Type**                   | **Description**                                                |
