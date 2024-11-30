@@ -21,10 +21,10 @@ class Database:
                     self.__create_schema(schema)
                 else:
                     raise FatalError(
-                        "Invalid schema provided. Check documentation for more details.")
+                        "Invalid schema provided.")
         else:
             raise FatalError(
-                "Invalid schema provided. Check documentation for more details.")
+                "Invalid schema provided.")
 
         return self
 
@@ -39,7 +39,7 @@ class Database:
         for attr in valid_schema_attributes:
             if attr not in schema_attributes:
                 raise FatalError(
-                    f"For defining a schema, '{attr}' attribute is required, which was not provided. Check documentation for more details.")
+                    f"For defining a schema, '{attr}' attribute is required, which was not provided.")
 
         invalid_attributes = [
             attribute for attribute in schema_attributes if attribute not in valid_schema_attributes]
@@ -47,14 +47,27 @@ class Database:
         if invalid_attributes:
             string_representation = ", ".join(invalid_attributes)
             raise Error(f"Invalid attributes '{
-                        string_representation}' provided in schema. Libz will create schema by ignoring them. Check documentation for more information")
+                        string_representation}' provided in schema. Libz will create schema by ignoring them.")
 
         if isinstance(schema.name, str) or not schema.name.isalpha():
             raise FatalError(
-                "Schema's 'name' attribute must only be of alphabets. Check documentation for more information.")
+                "Schema's 'name' attribute must only be of alphabets..")
 
         if not isinstance(schema.fields, list):
             raise FatalError(
-                "For defining a schema, attribiute 'field' must of a list. Check documentation for more information.")
+                "For defining a schema, attribiute 'field' must of a list..")
+
         validated_schema: dict = {}
-        validated_schema["name"] = schema.name
+        validated_schema["name"] = schema.name.lower()
+
+        primary = None
+        for field in schema.fields:
+            if isinstance(field, dict):
+                raise FatalError(f"Invalid datatype for fields in '{
+                                 validated_schema.name}' schema.. ")
+            
+            valid_field_attributes = ["name", "type", "unique", "primary"]
+            field_keys = field.keys()
+            
+            
+            
