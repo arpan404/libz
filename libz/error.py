@@ -11,7 +11,8 @@ class Error:
 
 class FatalError(Error):
     def __init__(self, message):
-        super().__init__(message)
+        new_message = f"{message} Check documentation for more information."
+        super().__init__(new_message)
 
     def handle(self):
         self._print_error
