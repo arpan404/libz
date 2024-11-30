@@ -14,10 +14,10 @@ class Libz:
         self.database_name = database_name
         self.database_schema: List[dict] = []
 
-    def defineSchema(self, schema: List[dict]) -> 'Libz':
+    def define_schema(self, schema: List[dict]) -> 'Libz':
         if not schema:
             raise FatalError(
-                "Schema is required while calling 'defineSchema' method, but got none")
+                "Schema is required while calling 'define_schema' method, but got none")
 
         if isinstance(schema, dict):
             validated_schema = self.__validate_schema(schema)

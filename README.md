@@ -13,7 +13,7 @@ database = Libz("users")
 ## Defining a schema
 
 ```python
-database.defineSchema({
+database.define_schema({
     name: "posts",
     fields:[
         {
