@@ -18,7 +18,7 @@ class Database:
         Database.defineSchema(
             {
                 name: "users",
-                fields:{
+                fields:[
                     "uid": {
                         type: "text",
                         unique: True,
@@ -31,7 +31,7 @@ class Database:
                     "joinedDate":{
                         type:"date"
                     }
-                }
+                ]
             }
         )
         """
@@ -42,7 +42,11 @@ class Database:
             raise FatalError(
                 "Name for the schema is required, but was not provided.")
 
-        if(not isinstance(schema.name, str)):
-            raise FatalError(
-                "Name for the scheme should always be string."
-            )
+        if (not isinstance(schema.name, str)):
+            raise FatalError(f"Name for the scheme should always be string, but instead got '{type(schema.name)}'")
+
+        if not schema.fields:
+            raise FatalError(f"Fields for the '{schema.name}' not provided")
+
+        for field in schema.fields:
+            if not filed.type
