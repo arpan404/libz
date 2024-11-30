@@ -33,25 +33,28 @@ class Database:
         self.__schemas.add(validated_schema)
 
     def __validate_schema(self, schema: dict) -> dict:
-        if not schema.name:
-            raise FatalError(
-                "For defining a schema, name is required, which was not provided. Check documentation for more details.")
-        if not isinstance(schema.name, str):
-            raise FatalError(
-                "Schema's name must only be string. Check documentation for more information.")
+        schema_attributes = schema.keys()
+        valid_schema_attributes = ["name", "fields"]
 
-        if not schema.name.isalpha():
-            raise FatalError(
-                "Schema's name must only be of alphabets. Check documentation for more information.")
+        for attr in valid_schema_attributes:
+            if attr not in schema_attributes:
+                raise FatalError(
+                    f"For defining a schema, '{attr}' attribute is required, which was not provided. Check documentation for more details.")
 
-        if not schema.fields:
+        invalid_attributes = [
+            attribute for attribute in schema_attributes if attribute not in valid_schema_attributes]
+
+        if invalid_attributes:
+            string_representation = ", ".join(invalid_attributes)
+            raise Error(f"Invalid attributes '{
+                        string_representation}' provided in schema. Libz will create schema by ignoring them. Check documentation for more information")
+
+        if isinstance(schema.name, str) or not schema.name.isalpha():
             raise FatalError(
-                "For defining a schema, fields must be provided. Check documentation for more information.")
+                "Schema's 'name' attribute must only be of alphabets. Check documentation for more information.")
 
         if not isinstance(schema.fields, list):
             raise FatalError(
-                "For defining a schema, list of fields must be provided. Check documentation for more information.")
-
+                "For defining a schema, attribiute 'field' must of a list. Check documentation for more information.")
         validated_schema: dict = {}
-
         validated_schema["name"] = schema.name
