@@ -36,3 +36,4 @@ class Libz:
                 "Invalid schema provided. Check documentation for more details.")
 
     def __validate_schema(schema: dict) -> dict:
+        
