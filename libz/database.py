@@ -33,6 +33,7 @@ class Database(FileManager):
     def __create_schema(self, schema: dict) -> None:
         validated_schema = self.__validate_schema(schema)
         self.__schemas.append(validated_schema)
+        self._create_database_files(self.__schemas)
 
     def __validate_schema(self, schema: dict) -> dict:
         schema_attributes = schema.keys()
@@ -64,8 +65,9 @@ class Database(FileManager):
 
         validated_schema: dict = {}
         validated_schema["name"] = schema["name"].lower()
-        validated_schema["field"] = self.__validate_schema_field(
+        validated_schema["fields"] = self.__validate_schema_field(
             validated_schema["name"], schema["fields"])
+        return validated_schema
 
     def __validate_schema_field(self, schema_name: str,  fields: List) -> List:
         primary: str = None
@@ -101,7 +103,8 @@ class Database(FileManager):
                 raise FatalError(f" Duplicate name for the field provided. Got '{
                                  field["name"]}' as field name for multiple time.")
 
-            current_field["name"] = field["name"]
+            current_field["name"] = f"{
+                field["name"].strip().replace(" ", "_")}"
 
             if field["type"] not in valid_types:
                 raise FatalError(

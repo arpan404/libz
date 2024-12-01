@@ -1,2 +1,3 @@
 .DS_Store
 libz/__pycache__
+test/

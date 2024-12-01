@@ -1,7 +1,7 @@
 from libz import Libz
 database = Libz("test")
 
-database.define_schema({
+database.define_schema([{
     "name": "posts",
     "fields": [
         {
@@ -20,4 +20,25 @@ database.define_schema({
             "type": "date"
         }
     ]
-})
+},
+    {
+    "name": "videos",
+    "fields": [
+        {
+            "name": "uid",
+            "type": "text",
+            "unique": True,
+            "primary": True
+        },
+        {
+            "name": "postedBy",
+            "type": "text",
+            "unique": False
+        },
+        {
+            "name": "postedOn",
+            "type": "date"
+        }
+    ]
+}
+])
