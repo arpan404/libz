@@ -14,7 +14,7 @@ class Database:
 
         if isinstance(schemas, dict):
             self.__create_schema(schemas)
-            
+
         elif isinstance(schemas, list):
             for schema in schemas:
                 if isinstance(schema, dict):
