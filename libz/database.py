@@ -1,9 +1,11 @@
 from .error import Error, FatalError
+from .filemanager import FileManager
 from typing import Set, List
 
 
-class Database:
+class Database(FileManager):
     def __init__(self, database_name):
+        super().__init__(database_name)
         self._database_name = database_name
         self.__schemas: Set[dict] = []
 
