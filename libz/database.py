@@ -30,6 +30,18 @@ class Database(FileManager):
 
         return self
 
+    def insert(self, collection, data: dict) -> None:
+        if not self.__is_collection_available(collection):
+            raise Error(
+                f"Database '{self.database}' has no collection named {collection}.")
+        pass
+
+    def __is_collection_available(self, collection: str) -> bool:
+        if not isinstance(collection, str):
+            raise FatalError(f"Collection's name can only be of type string, but got {
+                             type(collection)} instead.")
+        return len([schema for schema in self.__schemas if schema["name"] == collection]) == 1
+
     def __create_schema(self, schema: dict) -> None:
         validated_schema = self.__validate_schema(schema)
         self.__schemas.append(validated_schema)

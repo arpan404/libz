@@ -1,3 +1,4 @@
+from typing import List
 from .error import FatalError
 import os
 
@@ -32,6 +33,9 @@ class FileManager:
         self.__create_files(database_main_file_path,
                             database_main_file_text)
 
+    def _load_collections_to_files(self, collection) -> List:
+        pass
+
     def __create_files(self, file_path: str, text: str) -> None:
         try:
             with open(file_path, "w") as f:
@@ -39,7 +43,6 @@ class FileManager:
         except:
             raise FatalError(
                 f"Something went wrong. Could not create a database file at {file_path}.")
-
 
     def __is_file_empty(self, filePath: str) -> bool:
         try:
