@@ -65,6 +65,9 @@ class Database(FileManager):
 
         validated_schema: dict = {}
         validated_schema["name"] = schema["name"].lower()
+        if len([schema for schema in self.__schemas if schema["name"] == validated_schema["name"]]) != 0:
+            raise FatalError(
+                f"'{validated_schema["name"]}' schema is redefined.")
         validated_schema["fields"] = self.__validate_schema_field(
             validated_schema["name"], schema["fields"])
         return validated_schema
