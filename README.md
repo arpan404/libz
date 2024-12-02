@@ -51,9 +51,9 @@ Either single dictionary or list of dictionaries should be passed to 'defineSche
 
 This 'define_schema' method returns the instance of the class. So yes, it supports method chaining
 
-The provided schema will be saved and used throughout the current program. Attempting to define a different schema for the same database name will trigger an error.
+The provided schema will be saved and used throughout the current program.
 
-> Redefining a schema is not allowed. It will be ignored and print an error
+> Redefining a schema is not allowed.
 
 For example, following code will throw and error:
 
