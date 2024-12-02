@@ -52,8 +52,23 @@ class FileManager:
         except:
             raise FatalError("Failed to write data to the disk.")
 
-    def _get_collection_file_path(self, collection_name: str) -> List[dict]:
-        pass
+    def _get_collection_file_path(self, collection: dict) -> List[dict]:
+        if not isinstance(collection, dict):
+            raise FatalError("Invalid data type for collection.")
+        collection_data = []
+        try:
+            collection_file_path = os.path.join(
+                os.getcwd(), self.database, f"{self.database}_{collection["name"]}_collection.txt")
+            with open(collection_file_path, "r") as file:
+                collection_file_data = file.readlines()
+        except:
+            raise FatalError("Failed to open collection file.")
+
+        for line in collection_file_data:
+            new_line = line.strip()
+            collection_data.append(self.__prepare_collected_data(
+                collection["fields"], new_line))
+        return collection_data
 
     def __prepare_collected_data(self, fields: List[dict], collected_data: str) -> dict:
         data_dict = {}
