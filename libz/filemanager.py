@@ -33,6 +33,31 @@ class FileManager:
         self.__create_files(database_main_file_path,
                             database_main_file_text)
 
+    def _write_collection_data(self, collection_name, collection_data: List[dict]) -> None:
+        if not isinstance(collection_data, list):
+            raise FatalError(
+                f"Writing data to disk failed. Expectd list but got {type(collection_data)}")
+        text_to_write = ""
+        for data in collection_data:
+            if not isinstance(data, dict):
+                raise FatalError(
+                    f"Writing data to the disk due to invalid datatype passed.")
+            text_to_write += {self.__prepare_collection_data(data)}+"\n"
+
+        try:
+            collection_file_path = os.path.join(
+                os.getcwd(), self.database, f"{self.database}_{collection_name}_collection.txt")
+            with open(collection_file_path, "a") as file:
+                file.write(text_to_write)
+        except:
+            raise FatalError("Failed to write data to the disk.")
+
+    def __prepare_collection_data(self, collection_data: dict) -> str:
+        prepared_string = ""
+        for data in collection_data.values():
+            prepared_string += r"{data}\t"
+        return prepared_string
+
     def _load_collections_to_files(self, collection) -> List:
         pass
 
