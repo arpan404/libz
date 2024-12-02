@@ -53,7 +53,7 @@ class FileManager:
             raise FatalError("Failed to write data to the disk.")
 
     def _get_collection_file_path(self, collection_name: str) -> List[dict]:
-        
+        pass
 
     def __prepare_collected_data(self, fields: List[dict], collected_data: str) -> dict:
         data_dict = {}
