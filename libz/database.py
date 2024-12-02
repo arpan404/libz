@@ -1,6 +1,6 @@
-from .error import Error, FatalError
+from typing import List, Set
+from .error import Error, FatalError 
 from .filemanager import FileManager
-from typing import Set, List
 
 
 class Database(FileManager):

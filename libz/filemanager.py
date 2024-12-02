@@ -52,10 +52,23 @@ class FileManager:
         except:
             raise FatalError("Failed to write data to the disk.")
 
+    def _get_collection_file_path(self, collection_name: str) -> List[dict]:
+        
+
+    def __prepare_collected_data(self, fields: List[dict], collected_data: str) -> dict:
+        data_dict = {}
+        data_values = collected_data.split(',\t')
+
+        for index, field in enumerate(fields):
+            if index < len(data_values):
+                field_name = field['name']
+                data_dict[field_name] = data_values[index].strip("'")
+        return data_dict
+
     def __prepare_collection_data(self, collection_data: dict) -> str:
         prepared_string = ""
         for data in collection_data.values():
-            prepared_string += r"{data}\t"
+            prepared_string += r"'{data}',\t"
         return prepared_string
 
     def _load_collections_to_files(self, collection) -> List:
