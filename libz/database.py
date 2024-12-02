@@ -1,6 +1,7 @@
 from typing import List, Set
 from .error import Error, FatalError
 from .filemanager import FileManager
+from collections import Counter
 
 
 class Database(FileManager):
@@ -28,7 +29,7 @@ class Database(FileManager):
         else:
             raise FatalError(
                 "Invalid schema provided.")
-
+        print(self.__schemas)
         return self
 
     def insert(self, collection, data: dict) -> None:
@@ -36,6 +37,19 @@ class Database(FileManager):
             raise Error(
                 f"Database '{self.database}' has no collection named {collection}.")
         pass
+
+        collection_schema = self._get_collection_file_data()
+        if not isinstance(collection_schema, dict):
+            raise FatalError(f"Failed to insert data due to collection schema error.")
+        if Counter(data.keys()) != Counter(self.__get_schema_by_name["fields"]):
+            raise FatalError(f"Failed to insert data due to missing data.")
+        
+
+    def __get_schema_by_name(self, collection: str) -> dict:
+        for schema in self.__schemas:
+            if schema["name"] == collection:
+                return schema
+        return None
 
     def __is_collection_available(self, collection: str) -> bool:
         if not isinstance(collection, str):
