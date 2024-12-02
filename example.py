@@ -42,21 +42,3 @@ database.define_schema({
         }
     ]
 })
-
-
-database.define_schema({
-    "name": "posts",
-    "fields": [
-        {
-            "name": "uid",
-            "type": "text",
-            "unique": True,
-            "primary": True
-        },
-        {
-            "name": "userName",
-            "type": "text",
-            "unique": False
-        },
-    ]
-})

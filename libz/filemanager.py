@@ -52,7 +52,7 @@ class FileManager:
         except:
             raise FatalError("Failed to write data to the disk.")
 
-    def _get_collection_file_path(self, collection: dict) -> List[dict]:
+    def _get_collection_file_data(self, collection: dict) -> List[dict]:
         if not isinstance(collection, dict):
             raise FatalError("Invalid data type for collection.")
         collection_data = []
@@ -86,9 +86,6 @@ class FileManager:
             prepared_string += r"'{data}',\t"
         return prepared_string
 
-    def _load_collections_to_files(self, collection) -> List:
-        pass
-
     def __create_files(self, file_path: str, text: str) -> None:
         try:
             with open(file_path, "w") as f:
@@ -96,12 +93,6 @@ class FileManager:
         except:
             raise FatalError(
                 f"Something went wrong. Could not create a database file at {file_path}.")
-
-    def __is_file_empty(self, filePath: str) -> bool:
-        try:
-            return True if os.stat(filePath).st_size == 0 else False
-        except:
-            return True
 
     def __does_path_exists(self, path: str) -> bool:
         return os.path.exists(path)

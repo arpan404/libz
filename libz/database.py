@@ -1,5 +1,5 @@
 from typing import List, Set
-from .error import Error, FatalError 
+from .error import Error, FatalError
 from .filemanager import FileManager
 
 
@@ -7,7 +7,8 @@ class Database(FileManager):
     def __init__(self, database_name):
         super().__init__(database_name)
         self._database_name = database_name
-        self.__schemas: Set[dict] = []
+        self.__schemas: List[dict] = []
+        self.__data: dict = {}
 
     def define_schema(self, schemas: List[dict]) -> 'Database':
         if not schemas:
@@ -46,6 +47,10 @@ class Database(FileManager):
         validated_schema = self.__validate_schema(schema)
         self.__schemas.append(validated_schema)
         self._create_database_files(self.__schemas)
+        collected_collection = self.__data.keys()
+        if not schema["name"].lower() in collected_collection:
+            self.__data[schema["name"].lower()
+                        ] = self._get_collection_file_data(schema)
 
     def __validate_schema(self, schema: dict) -> dict:
         schema_attributes = schema.keys()
