@@ -20,8 +20,9 @@ database.define_schema([{
             "type": "date"
         }
     ]
-},
-    {
+}])
+
+database.define_schema({
     "name": "videos",
     "fields": [
         {
@@ -40,5 +41,22 @@ database.define_schema([{
             "type": "date"
         }
     ]
-}
-])
+})
+
+
+database.define_schema({
+    "name": "posts",
+    "fields": [
+        {
+            "name": "uid",
+            "type": "text",
+            "unique": True,
+            "primary": True
+        },
+        {
+            "name": "userName",
+            "type": "text",
+            "unique": False
+        },
+    ]
+})

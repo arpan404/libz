@@ -26,8 +26,9 @@ class FileManager:
                 database_main_file_text += f"{field['name']}\t{
                     field['type']}\t{field['unique']}\t{field['primary']}\n"
             directory_path = os.path.join(
-                database_directory, f"{self.database}_{schema['name']}.txt")
-            self.__create_files(directory_path, "")
+                database_directory, f"{self.database}_{schema['name']}_collection.txt")
+            if not self.__does_path_exists(directory_path):
+                self.__create_files(directory_path, "")
         self.__create_files(database_main_file_path,
                             database_main_file_text)
 
@@ -39,12 +40,6 @@ class FileManager:
             raise FatalError(
                 f"Something went wrong. Could not create a database file at {file_path}.")
 
-    def __validate_database_file_data(self, file_path) -> bool:
-        try:
-            # with open(file_path, )
-            pass
-        except:
-            raise FatalError(f"Could not open the database file")
 
     def __is_file_empty(self, filePath: str) -> bool:
         try:

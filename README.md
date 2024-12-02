@@ -50,3 +50,29 @@ database.define_schema({
 Either single dictionary or list of dictionaries should be passed to 'defineSchema' method
 
 This 'define_schema' method returns the instance of the class. So yes, it supports method chaining
+
+The provided schema will be saved and used throughout the current program. Attempting to define a different schema for the same database name will trigger an error.
+
+> Redefining a schema is not allowed. It will be ignored and print an error
+
+For example, following code will throw and error:
+
+```python
+
+database.define_schema({
+    "name": "posts",
+    "fields": [
+        {
+            "name": "uid",
+            "type": "text",
+            "unique": True,
+            "primary": True
+        },
+        {
+            "name": "userName",
+            "type": "text",
+            "unique": False
+        },
+    ]
+})
+```
