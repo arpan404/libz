@@ -7,7 +7,7 @@ database.define_schema([{
         {
             "name": "uid",
             "type": "text",
-            "unique": True,
+            "unique": False,
             "primary": True
         },
         {
@@ -45,13 +45,22 @@ database.define_schema({
 
 database.insert(
     "posts", {
-        "uid": "Arpan",
-        "postedBy": "ab",
+        "uid": "1x90",
+        "postedBy": "arpan404",
         "postedOn": "12/2/2024"
     }
 )
 
+database.insert(
+    "posts", {
+        "uid": "1x90",
+        "postedBy": "arpan404",
+        "postedOn": "12/2/2024"
+    }
+)
+
+
 print(database.find("posts", {"uid": "Arpan"}))
 # print(database.delete("posts", {
-#     "uid": "Arpan"
+#     "uid": "1x90"
 # }))

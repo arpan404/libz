@@ -97,7 +97,7 @@ class Database(FileManager):
             raise FatalError("Invalid condition.")
         collection = collection.lower()
 
-        collection_schema = self.__get_schema_by_name(collection.lower())
+        collection_schema = self.__get_schema_by_name(collection)
 
         if not collection_schema:
             raise Error("Collection not found.")
@@ -107,11 +107,61 @@ class Database(FileManager):
         invalid_keys = [key for key in provided_keys if key not in valid_keys]
 
         if invalid_keys:
-            return False
+            raise Error(
+                f"Invalid field {invalid_keys} provided. These fields are not defined in the schema.")
 
         for index, values in enumerate(self.__data[collection_schema["name"]]):
             isValid = True
             for key in provided_keys:
+                if not values[key] == condition[key]:
+                    isValid = False
+                    break
+            if isValid:
+                self.__data[collection_schema["name"]] = [
+                    data for data in self.__data[collection_schema["name"]]
+                    if not all(data[k] == condition[k] for k in provided_keys)
+                ]
+        file_path = os.path.join(os.getcwd(), self.database, f"{self.database}_{collection_schema["name"]}_collection.txt")
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        self._write_collection_data(
+            collection, self.__data[collection_schema["name"]])
+
+        return True
+
+    def update(self, collection: str, new_data: dict, condition: dict) -> bool:
+        if collection is not str:
+            raise Error("Invalid collection.")
+        if new_data is not dict:
+            raise Error("Invalid new data provided.")
+        if condition is not dict:
+            raise Error("Invalid condition provided.")
+        collection = collection.lower()
+
+        collection_schema = self.__get_schema_by_name(collection)
+
+        if not collection_schema:
+            raise Error("Collection not found.")
+
+        valid_keys = [field["name"] for field in collection_schema["fields"]]
+        provided_keys = new_data.keys()
+        invalid_keys = [key for key in provided_keys if key not in valid_keys]
+        provided_condition_keys = condition.keys()
+        invalid_condition_keys = [
+            key for key in provided_condition_keys if key not in valid_keys]
+
+        if invalid_keys:
+            raise Error(
+                f"Invalid field {invalid_keys} provided. These fields are not defined in the schema.")
+        if invalid_condition_keys:
+            raise Error(
+                f"Invalid field {invalid_keys} provided. These fields are not defined in the schema.")
+
+        for index, values in enumerate(self.__data[collection_schema["name"]]):
+            isValid = True
+            for key in provided_condition_keys:
                 if not values[key] == condition[key]:
                     isValid
             if isValid:
@@ -126,9 +176,6 @@ class Database(FileManager):
             collection, self.__data[collection_schema["name"]])
 
         return True
-
-
-    # def update(self, collection, new_d)
 
     def __check_uniqueness(self, collection_schema: dict, new_data: dict) -> bool:
         unique_field = [field["name"]
