@@ -127,6 +127,9 @@ class Database(FileManager):
 
         return True
 
+
+    # def update(self, collection, new_d)
+
     def __check_uniqueness(self, collection_schema: dict, new_data: dict) -> bool:
         unique_field = [field["name"]
                         for field in collection_schema["fields"] if field["unique"]]

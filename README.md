@@ -105,6 +105,17 @@ database.find("posts", {
 
 > `find` method returns the all the available data which matches provided condition. It takes two arguments: `collection_name` and `condition`
 
+## Deleting Data
+
+```python
+data.delete("posts", {
+    "uid":"1x099"
+})
+```
+> `delete` methods taks two arguments `collection` and `condition`. It returns True if the data is deleted successfully; raise Error otherwise.
+
+
+
 ### This is a fun project (not made for large scale use or production), if you wanna use it go ahead.
 
 > I recommend using it only for simple projects, where you need to save and retrive data simply.
