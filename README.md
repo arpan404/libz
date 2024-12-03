@@ -76,3 +76,5 @@ database.define_schema({
     ]
 })
 ```
+
+## This is a fun project (not made for large scale or prroduction), if you wanna use it go ahead.
