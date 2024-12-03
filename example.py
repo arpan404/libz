@@ -51,16 +51,11 @@ database.insert(
     }
 )
 
-database.insert(
-    "posts", {
-        "uid": "1x90",
-        "postedBy": "arpan404",
-        "postedOn": "12/2/2024"
-    }
-)
 
+# print(database.find("posts", {"uid": "Arpan"}))
 
-print(database.find("posts", {"uid": "Arpan"}))
 # print(database.delete("posts", {
 #     "uid": "1x90"
 # }))
+database.update(collection="posts", new_data={
+                "postedBy": "tarpan404"}, condition={"uid": "1x90"})

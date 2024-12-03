@@ -132,11 +132,11 @@ class Database(FileManager):
         return True
 
     def update(self, collection: str, new_data: dict, condition: dict) -> bool:
-        if collection is not str:
+        if not isinstance(collection, str):
             raise Error("Invalid collection.")
-        if new_data is not dict:
+        if not isinstance(new_data, dict):
             raise Error("Invalid new data provided.")
-        if condition is not dict:
+        if not isinstance(condition, dict):
             raise Error("Invalid condition provided.")
         collection = collection.lower()
 
@@ -163,10 +163,19 @@ class Database(FileManager):
             isValid = True
             for key in provided_condition_keys:
                 if not values[key] == condition[key]:
-                    isValid
+                    isValid = False
+                    break
             if isValid:
-                self.__data[collection_schema["name"]] = [data for i, data in enumerate(
-                    self.__data[collection_schema["name"]]) if i != index]
+                updated_data = {}
+                data_keys = values.keys()
+                for key in data_keys:
+                    if key in provided_keys:
+                        updated_data[key] = new_data[key]
+                    else:
+                        updated_data[key] = values[key]
+
+                self.__data[collection_schema["name"]][index] = updated_data
+
         file_path = os.path.join(os.getcwd(), self.database, f"{self.database}_{collection_schema["name"]}_collection.txt")
 
         if os.path.exists(file_path):

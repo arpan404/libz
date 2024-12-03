@@ -108,14 +108,30 @@ database.find("posts", {
 ## Deleting Data
 
 ```python
-data.delete("posts", {
+database.delete("posts", {
     "uid":"1x099"
 })
 ```
+
 > `delete` methods taks two arguments `collection` and `condition`. It returns True if the data is deleted successfully; raise Error otherwise.
 
+## Updating Data
 
+```python
+database.update("posts",
+    {
+        "postedBy":"thearpan404"
+    },
+    {
+        "uid":"1x099"
+    })
+
+```
+
+> `update` methods take three argument `collection`, `new_data` and `condition`. It returns True if the data is updated successfully; raise Error otherwise.
 
 ### This is a fun project (not made for large scale use or production), if you wanna use it go ahead.
 
-> I recommend using it only for simple projects, where you need to save and retrive data simply.
+> I recommend using it only for simple projects, where you need to save and retrive data simply (like simple college projects).
+
+#### You can modify and use the code accordingy to your needs as there will be no future update from myside unless I go to coding mood.
