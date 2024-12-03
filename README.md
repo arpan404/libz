@@ -77,4 +77,6 @@ database.define_schema({
 })
 ```
 
-## This is a fun project (not made for large scale or prroduction), if you wanna use it go ahead.
+### This is a fun project (not made for large scale use or prroduction), if you wanna use it go ahead.
+
+> I recommend using it for simple projects, where you need to save and retrive data simply.

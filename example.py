@@ -42,9 +42,3 @@ database.define_schema({
         }
     ]
 })
-
-database.insert("posts", {
-    "uid": "Arpaaaan",
-    "postedBy": "Assrpan",
-    "postedOn": "Heallo"
-})

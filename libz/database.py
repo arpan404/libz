@@ -29,7 +29,7 @@ class Database(FileManager):
         else:
             raise FatalError(
                 "Invalid schema provided.")
-        print(self.__schemas)
+        print(self.__data)
         return self
 
     def insert(self, collection, data: dict) -> None:
@@ -54,7 +54,6 @@ class Database(FileManager):
         else:
             self.__data[collection] = [data]
         self._write_collection_data(collection, [data])
-        print(self.__data)
 
     def __get_schema_by_name(self, collection: str) -> dict:
         collection = collection.lower()
@@ -77,6 +76,7 @@ class Database(FileManager):
         if not schema["name"].lower() in collected_collection:
             self.__data[schema["name"].lower()
                         ] = self._get_collection_file_data(schema)
+
 
     def __validate_schema(self, schema: dict) -> dict:
         schema_attributes = schema.keys()
