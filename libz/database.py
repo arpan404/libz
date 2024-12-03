@@ -29,7 +29,6 @@ class Database(FileManager):
         else:
             raise FatalError(
                 "Invalid schema provided.")
-        print(self.__data)
         return self
 
     def insert(self, collection, data: dict) -> None:
@@ -47,13 +46,23 @@ class Database(FileManager):
                 f"Failed to insert data due to collection schema error.")
         if Counter(data.keys()) != Counter([field["name"] for field in self.__get_schema_by_name(collection)["fields"]]):
             raise Error(f"Failed to insert data due to missing data.")
-
+        self.__check_uniqueness(collection_schema, data)
         if self.__data[collection]:
             if isinstance(self.__data[collection], list):
                 self.__data[collection].append(data)
         else:
             self.__data[collection] = [data]
         self._write_collection_data(collection, [data])
+
+    def __check_uniqueness(self, collection_schema: dict, new_data: dict) -> bool:
+        unique_field = [field["name"]
+                        for field in collection_schema["fields"] if field["unique"]]
+
+        for collection_data in self.__data[collection_schema["name"]]:
+            for field in unique_field:
+                if collection_data[field] == new_data[field]:
+                    raise Error(
+                        "Duplicate value provided for data field set to unique.")
 
     def __get_schema_by_name(self, collection: str) -> dict:
         collection = collection.lower()
@@ -76,7 +85,6 @@ class Database(FileManager):
         if not schema["name"].lower() in collected_collection:
             self.__data[schema["name"].lower()
                         ] = self._get_collection_file_data(schema)
-
 
     def __validate_schema(self, schema: dict) -> dict:
         schema_attributes = schema.keys()
