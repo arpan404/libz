@@ -135,3 +135,5 @@ database.update("posts",
 > I recommend using it only for simple projects, where you need to save and retrive data simply (like simple college projects).
 
 #### You can modify and use the code accordingy to your needs as there will be no future update from myside unless I go to coding mood.
+
+> I believe good code doesn’t need comments to explain itself, so I haven’t added any comments to the code.
