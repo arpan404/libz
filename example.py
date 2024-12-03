@@ -52,10 +52,12 @@ database.insert(
 )
 
 
-# print(database.find("posts", {"uid": "Arpan"}))
+print(database.find("posts", {"uid": "Arpan"}))
 
-# print(database.delete("posts", {
-#     "uid": "1x90"
-# }))
+
 database.update(collection="posts", new_data={
                 "postedBy": "tarpan404"}, condition={"uid": "1x90"})
+
+print(database.delete("posts", {
+    "uid": "1x90"
+}))
