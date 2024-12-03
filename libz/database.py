@@ -81,9 +81,6 @@ class Database(FileManager):
         for values in self.__data[collection_schema["name"]]:
             isValid = True
             for key in provided_keys:
-                print(key)
-                print(values[key])
-                print(condition[key])
                 if not values[key] == condition[key]:
                     isValid = False
                     break
@@ -91,6 +88,35 @@ class Database(FileManager):
                 found_result.append(values)
 
         return found_result
+
+    def delete(self, collection: str, condition: dict) -> bool:
+        if not isinstance(collection, str):
+            raise FatalError("Invalid data type for collection name.")
+        if not isinstance(condition, dict):
+            raise FatalError("Invalid condition.")
+
+        collection_schema = self.__get_schema_by_name(collection.lower())
+
+        if not collection_schema:
+            raise Error("Collection not found.")
+
+        valid_keys = [field["name"] for field in collection_schema["fields"]]
+        provided_keys = condition.keys()
+        invalid_keys = [key for key in provided_keys if key not in valid_keys]
+
+        if invalid_keys:
+            return False
+
+        for index, values in enumerate(self.__data[collection_schema["name"]]):
+            isValid = True
+            for key in provided_keys:
+                if not values[key] == condition[key]:
+                    isValid
+            if isValid:
+                self.__data[collection_schema["name"]] = [data for i, data in enumerate(
+                    self.__data[collection_schema["name"]]) if i != index]
+
+        return True
 
     def __check_uniqueness(self, collection_schema: dict, new_data: dict) -> bool:
         unique_field = [field["name"]
