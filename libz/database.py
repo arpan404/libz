@@ -72,7 +72,7 @@ class Database(FileManager):
         for schema in self.__schemas:
             if schema["name"] == collection:
                 return schema
-        return None
+        return {}
 
     def __is_collection_available(self, collection: str) -> bool:
         if not isinstance(collection, str):
@@ -183,7 +183,7 @@ class Database(FileManager):
 
                 if primary_field:
                     raise FatalError(
-                        f"Only one field can be made primary. '{primary}' is already defined as primary but '{
+                        f"Only one field can be made primary. '{primary_field}' is already defined as primary but '{
                             field["name"]}' is again defined as primary"
                     )
                 primary_field = field["name"]
