@@ -43,8 +43,12 @@ database.define_schema({
     ]
 })
 
-database.insert("posts", {
-    "uid": "Arpaaan",
-    "postedBy": "Assrpan",
-    "postedOn": "Heallo"
-})
+database.insert(
+    "posts", {
+        "uid": "Arpan",
+        "postedBy": "ab",
+        "postedOn": "12/2/2024"
+    }
+)
+
+print(database.find("posts", {"uid": "Arpan"}))

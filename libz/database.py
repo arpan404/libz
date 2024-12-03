@@ -1,4 +1,4 @@
-from typing import List 
+from typing import List
 from .error import Error, FatalError
 from .filemanager import FileManager
 from collections import Counter
@@ -46,7 +46,7 @@ class Database(FileManager):
                 f"Failed to insert data due to collection schema error.")
         if Counter(data.keys()) != Counter([field["name"] for field in self.__get_schema_by_name(collection)["fields"]]):
             raise Error(f"Failed to insert data due to missing data.")
-        
+
         if not self.__check_uniqueness(collection_schema, data):
             raise Error("Duplicate value provided for unique field.")
 
@@ -56,6 +56,41 @@ class Database(FileManager):
         else:
             self.__data[collection] = [data]
         self._write_collection_data(collection, [data])
+
+    def find(self, collection: str, condition: dict) -> List[dict]:
+        if not isinstance(collection, str):
+            raise FatalError("Invalid data type for collection name.")
+        if not isinstance(condition, dict):
+            raise FatalError("Invalid condition.")
+
+        collection_schema = self.__get_schema_by_name(collection.lower())
+
+        if not collection_schema:
+            raise Error("Collection not found.")
+
+        valid_keys = [field["name"] for field in collection_schema["fields"]]
+        provided_keys = condition.keys()
+        invalid_keys = [key for key in provided_keys if key not in valid_keys]
+
+        if invalid_keys:
+            raise Error(
+                f"Invalid field {invalid_keys} provided. These fields are not defined in the schema.")
+
+        found_result = []
+
+        for values in self.__data[collection_schema["name"]]:
+            isValid = True
+            for key in provided_keys:
+                print(key)
+                print(values[key])
+                print(condition[key])
+                if not values[key] == condition[key]:
+                    isValid = False
+                    break
+            if isValid:
+                found_result.append(values)
+
+        return found_result
 
     def __check_uniqueness(self, collection_schema: dict, new_data: dict) -> bool:
         unique_field = [field["name"]
@@ -127,7 +162,7 @@ class Database(FileManager):
         return validated_schema
 
     def __validate_schema_field(self, schema_name: str,  fields: List) -> List:
-        primary_field: str ="" 
+        primary_field: str = ""
         validated_fields_name: List[str] = []
         validated_fields: List[dict] = []
 

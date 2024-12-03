@@ -78,6 +78,7 @@ database.define_schema({
 ```
 
 ## Inserting data
+
 ```python
 
 database.insert("posts", {
@@ -87,10 +88,22 @@ database.insert("posts", {
 })
 
 ```
+
 > `insert` method takes two arguments, first one is the collection name (name provided when defining a schema) and the dictory with same all keys and value pair which were defined in the schema.
 > Passing any other data type or dictionary with different keys and values will throw an error.
 > Passing duplicate value to the unique field will also throw an error.
 
+## Finding Data
+
+> Currently only finding exact data is supported, using certain field
+
+```python
+database.find("posts", {
+    "uid":"1x09"
+})
+```
+
+> `find` method returns the all the available data which matches provided condition. It takes two arguments: `collection_name` and `condition`
 
 ### This is a fun project (not made for large scale use or production), if you wanna use it go ahead.
 

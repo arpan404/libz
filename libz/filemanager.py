@@ -77,7 +77,8 @@ class FileManager:
         for index, field in enumerate(fields):
             if index < len(data_values):
                 field_name = field['name']
-                data_dict[field_name] = data_values[index].strip("'").strip('"')
+                data_dict[field_name] = data_values[index].strip(
+                    '"').strip(",").strip("'")
         return data_dict
 
     def __prepare_collection_data(self, collection_data: dict) -> str:
