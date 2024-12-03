@@ -2,6 +2,7 @@ from typing import List
 from .error import Error, FatalError
 from .filemanager import FileManager
 from collections import Counter
+import os
 
 
 class Database(FileManager):
@@ -94,6 +95,7 @@ class Database(FileManager):
             raise FatalError("Invalid data type for collection name.")
         if not isinstance(condition, dict):
             raise FatalError("Invalid condition.")
+        collection = collection.lower()
 
         collection_schema = self.__get_schema_by_name(collection.lower())
 
@@ -115,6 +117,13 @@ class Database(FileManager):
             if isValid:
                 self.__data[collection_schema["name"]] = [data for i, data in enumerate(
                     self.__data[collection_schema["name"]]) if i != index]
+        file_path = os.path.join(os.getcwd(), self.database, f"{self.database}_{collection_schema["name"]}_collection.txt")
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        self._write_collection_data(
+            collection, self.__data[collection_schema["name"]])
 
         return True
 
