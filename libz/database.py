@@ -33,19 +33,31 @@ class Database(FileManager):
         return self
 
     def insert(self, collection, data: dict) -> None:
+        collection = collection.lower()
         if not self.__is_collection_available(collection):
             raise Error(
                 f"Database '{self.database}' has no collection named {collection}.")
         pass
+        if not data:
+            raise Error(f"No data provided to the insert method")
 
-        collection_schema = self._get_collection_file_data()
+        collection_schema = self.__get_schema_by_name(collection)
         if not isinstance(collection_schema, dict):
-            raise FatalError(f"Failed to insert data due to collection schema error.")
-        if Counter(data.keys()) != Counter(self.__get_schema_by_name["fields"]):
-            raise FatalError(f"Failed to insert data due to missing data.")
-        
+            raise Error(
+                f"Failed to insert data due to collection schema error.")
+        if Counter(data.keys()) != Counter([field["name"] for field in self.__get_schema_by_name(collection)["fields"]]):
+            raise Error(f"Failed to insert data due to missing data.")
+
+        if self.__data[collection]:
+            if isinstance(self.__data[collection], list):
+                self.__data[collection].append(data)
+        else:
+            self.__data[collection] = [data]
+        self._write_collection_data(collection, [data])
+        print(self.__data)
 
     def __get_schema_by_name(self, collection: str) -> dict:
+        collection = collection.lower()
         for schema in self.__schemas:
             if schema["name"] == collection:
                 return schema

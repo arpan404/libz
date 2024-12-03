@@ -42,7 +42,7 @@ class FileManager:
             if not isinstance(data, dict):
                 raise FatalError(
                     f"Writing data to the disk due to invalid datatype passed.")
-            text_to_write += {self.__prepare_collection_data(data)}+"\n"
+            text_to_write += self.__prepare_collection_data(data)+"\n"
 
         try:
             collection_file_path = os.path.join(
@@ -77,13 +77,13 @@ class FileManager:
         for index, field in enumerate(fields):
             if index < len(data_values):
                 field_name = field['name']
-                data_dict[field_name] = data_values[index].strip("'")
+                data_dict[field_name] = data_values[index].strip("'").strip('"')
         return data_dict
 
     def __prepare_collection_data(self, collection_data: dict) -> str:
         prepared_string = ""
         for data in collection_data.values():
-            prepared_string += r"'{data}',\t"
+            prepared_string += f"{repr(data)},\t"
         return prepared_string
 
     def __create_files(self, file_path: str, text: str) -> None:
