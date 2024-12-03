@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import List 
 from .error import Error, FatalError
 from .filemanager import FileManager
 from collections import Counter
@@ -46,7 +46,9 @@ class Database(FileManager):
                 f"Failed to insert data due to collection schema error.")
         if Counter(data.keys()) != Counter([field["name"] for field in self.__get_schema_by_name(collection)["fields"]]):
             raise Error(f"Failed to insert data due to missing data.")
-        self.__check_uniqueness(collection_schema, data)
+        
+        if self.__check_uniqueness(collection_schema, data)
+
         if self.__data[collection]:
             if isinstance(self.__data[collection], list):
                 self.__data[collection].append(data)
@@ -63,6 +65,7 @@ class Database(FileManager):
                 if collection_data[field] == new_data[field]:
                     raise Error(
                         "Duplicate value provided for data field set to unique.")
+        return True
 
     def __get_schema_by_name(self, collection: str) -> dict:
         collection = collection.lower()
@@ -124,7 +127,7 @@ class Database(FileManager):
         return validated_schema
 
     def __validate_schema_field(self, schema_name: str,  fields: List) -> List:
-        primary: str = None
+        primary_field: str ="" 
         validated_fields_name: List[str] = []
         validated_fields: List[dict] = []
 
@@ -178,15 +181,13 @@ class Database(FileManager):
                     raise FatalError(
                         f"Invalid data type for 'primary' attributes- only boolean values are acceptable.")
 
-                if primary is not None:
+                if primary_field:
                     raise FatalError(
                         f"Only one field can be made primary. '{primary}' is already defined as primary but '{
                             field["name"]}' is again defined as primary"
                     )
-                primary = field["primary"]
-            else:
-                primary = True if primary is None else False
-
+                primary_field = field["name"]
+            primary = True if primary_field == current_field["name"] else False
             current_field["primary"] = primary
             validated_fields.append(current_field)
         return validated_fields
