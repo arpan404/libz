@@ -47,7 +47,8 @@ class Database(FileManager):
         if Counter(data.keys()) != Counter([field["name"] for field in self.__get_schema_by_name(collection)["fields"]]):
             raise Error(f"Failed to insert data due to missing data.")
         
-        if self.__check_uniqueness(collection_schema, data)
+        if not self.__check_uniqueness(collection_schema, data):
+            raise Error("Duplicate value provided for unique field.")
 
         if self.__data[collection]:
             if isinstance(self.__data[collection], list):
@@ -63,8 +64,7 @@ class Database(FileManager):
         for collection_data in self.__data[collection_schema["name"]]:
             for field in unique_field:
                 if collection_data[field] == new_data[field]:
-                    raise Error(
-                        "Duplicate value provided for data field set to unique.")
+                    return False
         return True
 
     def __get_schema_by_name(self, collection: str) -> dict:
