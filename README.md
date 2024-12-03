@@ -77,6 +77,21 @@ database.define_schema({
 })
 ```
 
+## Inserting data
+```python
+
+database.insert("posts", {
+"uid":"1x09",
+"postedBy":"@arpan404",
+"postedOn":"2024-12-02"
+})
+
+```
+> `insert` method takes two arguments, first one is the collection name (name provided when defining a schema) and the dictory with same all keys and value pair which were defined in the schema.
+> Passing any other data type or dictionary with different keys and values will throw an error.
+> Passing duplicate value to the unique field will also throw an error.
+
+
 ### This is a fun project (not made for large scale use or production), if you wanna use it go ahead.
 
 > I recommend using it only for simple projects, where you need to save and retrive data simply.
