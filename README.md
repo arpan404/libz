@@ -1,8 +1,8 @@
 # libz
 
-### Simple DBMS (not a relational one) that stores data in a folder with different file.
+### A lightweight, non-relational database management system (DBMS) that organizes data within a directory, utilizing separate files for each dataset.
 
-##### Coded a lot in C++ and Typescript in last few weeks, so coded this to recall python for exam
+##### After extensive coding in C++ and TypeScript over the past few weeks, I created this project to refresh my Python skills in preparation for an upcoming exam.
 
 > Python Version: 3.12.4
 
@@ -130,10 +130,10 @@ database.update("posts",
 
 > `update` methods take three argument `collection`, `new_data` and `condition`. It returns True if the data is updated successfully; raise Error otherwise.
 
-### This is a fun project (not made for large scale use or production), if you wanna use it go ahead.
+### This project is designed for fun and educational purposes, and is not intended for large-scale or production use. Feel free to explore and utilize it!
 
-> I recommend using it only for simple projects, where you need to save and retrive data simply (like simple college projects).
+> It is best suited for simple projects where you need to save and retrieve data easily, such as small college assignments or personal experiments.
 
-#### You can modify and use the code accordingy to your needs as there will be no future update from myside unless I go to coding mood.
+#### You are welcome to modify and adapt the code to fit your needs, as there are no planned future updates unless I feel inspired to code again.
 
-> I believe good code doesn’t need comments to explain itself, so I haven’t added any comments to the code.
+> I believe that well-structured code should be self-explanatory, which is why I have chosen not to include comments in the code.
